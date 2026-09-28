@@ -17,7 +17,7 @@ export function LoginPage() {
     try {
       await login(email, password);
       toast.success("Welcome back!");
-      navigate("/");
+      navigate("/dashboard");
     } catch (err: any) {
       toast.error(err.response?.data?.message || "Login failed");
     } finally {
@@ -27,9 +27,28 @@ export function LoginPage() {
 
   return (
     <div className="min-h-screen flex">
-      <div className="hidden lg:flex w-1/2 bg-gradient-to-br from-brand-600 via-brand-700 to-violet-800 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.18),transparent_55%)]" />
+      {/* ---------- LEFT BRAND PANEL (with faded image) ---------- */}
+      <div className="hidden lg:flex w-1/2 relative overflow-hidden bg-slate-900">
+        {/* Background image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage:
+              "url(https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=2400&q=80)",
+          }}
+        />
+
+        {/* Gradient overlay (indigo → violet, semi-transparent) */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-700/90 via-brand-800/85 to-violet-900/90" />
+
+        {/* Extra dark vignette */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-slate-950/30" />
+
+        {/* Decorative blobs */}
         <div className="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-violet-400/20 blur-3xl" />
+        <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-brand-400/20 blur-3xl" />
+
+        {/* Content */}
         <div className="relative z-10 flex flex-col justify-between p-12 text-white w-full">
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center ring-1 ring-white/20">
@@ -37,6 +56,7 @@ export function LoginPage() {
             </div>
             <span className="font-bold text-lg tracking-tight">eKazi</span>
           </div>
+
           <div>
             <h2 className="text-4xl font-bold leading-[1.15] tracking-tight mb-5">
               Hire smarter,
@@ -48,12 +68,14 @@ export function LoginPage() {
               pipeline — all in one place.
             </p>
           </div>
+
           <div className="text-xs text-white/50">
             © {new Date().getFullYear()} eKazi. All rights reserved.
           </div>
         </div>
       </div>
 
+      {/* ---------- RIGHT FORM PANEL ---------- */}
       <div className="flex-1 flex items-center justify-center p-6 bg-slate-50">
         <div className="w-full max-w-[380px] animate-slide-up">
           <div className="lg:hidden flex items-center gap-2 mb-8">

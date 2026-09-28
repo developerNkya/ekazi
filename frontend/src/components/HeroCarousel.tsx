@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ChevronLeft, ChevronRight, Users, Building2, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import clsx from "clsx";
 
 interface Slide {
   id: number;
-  badge: string;
-  badgeIcon: typeof Users;
   title: string;
   subtitle: string;
   cta: { label: string; to: string };
@@ -16,8 +14,6 @@ interface Slide {
 const SLIDES: Slide[] = [
   {
     id: 1,
-    badge: "FOR CANDIDATES",
-    badgeIcon: Users,
     title: "Find work that matters",
     subtitle:
       "Discover open roles from top employers across Tanzania. Apply in minutes — no account required.",
@@ -26,8 +22,6 @@ const SLIDES: Slide[] = [
   },
   {
     id: 2,
-    badge: "FOR EMPLOYERS",
-    badgeIcon: Building2,
     title: "Hire top talent, faster",
     subtitle:
       "Post jobs in seconds, manage applications from a clean dashboard, and move candidates through your pipeline.",
@@ -36,8 +30,6 @@ const SLIDES: Slide[] = [
   },
   {
     id: 3,
-    badge: "ONE PLATFORM",
-    badgeIcon: Sparkles,
     title: "Both sides of hiring",
     subtitle:
       "Recruitment made simple. Candidates apply free, employers manage efficiently — all in one place.",
@@ -55,10 +47,6 @@ export function HeroCarousel() {
     const t = setInterval(() => setIndex((i) => (i + 1) % SLIDES.length), 6000);
     return () => clearInterval(t);
   }, [paused]);
-
-  const go = (dir: -1 | 1) => {
-    setIndex((i) => (i + dir + SLIDES.length) % SLIDES.length);
-  };
 
   return (
     <section
@@ -97,11 +85,6 @@ export function HeroCarousel() {
                     : "opacity-0 translate-y-4"
                 )}
               >
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-[11px] font-semibold tracking-wide text-white mb-5 ring-1 ring-white/20">
-                  <slide.badgeIcon className="w-3 h-3" />
-                  {slide.badge}
-                </div>
-
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.05] mb-5">
                   {slide.title}
                 </h1>
@@ -122,22 +105,6 @@ export function HeroCarousel() {
           </div>
         </div>
       ))}
-
-      {/* Arrows */}
-      <button
-        onClick={() => go(-1)}
-        aria-label="Previous slide"
-        className="absolute left-4 sm:left-6 lg:left-8 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 backdrop-blur-md hover:bg-white/20 text-white flex items-center justify-center transition-colors ring-1 ring-white/20 z-20"
-      >
-        <ChevronLeft className="w-5 h-5" />
-      </button>
-      <button
-        onClick={() => go(1)}
-        aria-label="Next slide"
-        className="absolute right-4 sm:right-6 lg:right-8 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 backdrop-blur-md hover:bg-white/20 text-white flex items-center justify-center transition-colors ring-1 ring-white/20 z-20"
-      >
-        <ChevronRight className="w-5 h-5" />
-      </button>
 
       {/* Dots */}
       <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20">
@@ -165,7 +132,6 @@ export function HeroCarousel() {
         />
       </div>
 
-      {/* Add the keyframe globally (once) */}
       <style>{`
         @keyframes hero-progress {
           from { transform: scaleX(0); }

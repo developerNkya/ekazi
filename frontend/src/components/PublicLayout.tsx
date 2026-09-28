@@ -8,12 +8,12 @@ export function PublicLayout() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  // The homepage renders a full-bleed hero, so no inner max-width
-  const isHome = pathname === "/";
+  // Homepage and About render full-bleed heroes, so no inner max-width
+  const isFullBleed = pathname === "/" || pathname === "/about";
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
-      {/* Navbar */}
+      {/* ---------- NAVBAR ---------- */}
       <header className="h-16 border-b border-slate-200/80 bg-white/80 backdrop-blur-md sticky top-0 z-40">
         <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5">
@@ -71,9 +71,9 @@ export function PublicLayout() {
         </div>
       </header>
 
-      {/* Content — no wrapper on homepage (hero bleeds), wrapped elsewhere */}
+      {/* ---------- MAIN CONTENT ---------- */}
       <main className="flex-1">
-        {isHome ? (
+        {isFullBleed ? (
           <Outlet />
         ) : (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 animate-fade-in">
@@ -82,7 +82,7 @@ export function PublicLayout() {
         )}
       </main>
 
-      {/* Footer */}
+      {/* ---------- FOOTER ---------- */}
       <footer className="border-t border-slate-200/80 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
