@@ -12,6 +12,12 @@ const submitSchema = z.object({
 });
 
 export const publicController = {
+  // NEW — list all published jobs
+  list: asyncHandler(async (_req: Request, res: Response) => {
+    const jobs = await publicService.listPublishedJobs();
+    res.json(jobs);
+  }),
+
   getJob: asyncHandler(async (req: Request, res: Response) => {
     const job = await publicService.getPublishedJob(Number(req.params.id));
     res.json(job);
@@ -19,12 +25,15 @@ export const publicController = {
 
   apply: asyncHandler(async (req: Request, res: Response) => {
     const data = submitSchema.parse(req.body);
-    const application = await publicService.submitApplication(Number(req.params.id), data);
+    const application = await publicService.submitApplication(
+      Number(req.params.id),
+      data
+    );
     res.status(201).json(application);
   }),
 
   stats: asyncHandler(async (_req: Request, res: Response) => {
-  const stats = await publicService.getPublicStats();
-  res.json(stats);
-}),
+    const stats = await publicService.getPublicStats();
+    res.json(stats);
+  }),
 };
