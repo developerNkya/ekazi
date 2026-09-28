@@ -1,0 +1,10 @@
+﻿@'
+node_modules/
+dist/
+.vite/
+.env
+.env.local
+*.log
+*.tsbuildinfo
+'@ | Set-Content -Path "frontend\.gitignore" -Encoding ASCII
+Write-Host "✅ Created frontend/.gitignore" -ForegroundColor Green
