@@ -1,32 +1,114 @@
-import { Link, Outlet } from "react-router-dom";
-import { Sparkles } from "lucide-react";
+import { Link, NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
+import { Sparkles, ArrowRight } from "lucide-react";
+import clsx from "clsx";
+import { useAuth } from "../hooks/useAuth";
 
 export function PublicLayout() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  // The homepage renders a full-bleed hero, so no inner max-width
+  const isHome = pathname === "/";
+
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
-      <header className="h-16 border-b border-slate-200/80 bg-white/80 backdrop-blur-md sticky top-0 z-30">
-        <div className="max-w-3xl mx-auto h-full px-4 sm:px-6 flex items-center justify-between">
-          <Link to="/careers" className="flex items-center gap-2.5">
+      {/* Navbar */}
+      <header className="h-16 border-b border-slate-200/80 bg-white/80 backdrop-blur-md sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-white shadow-soft">
               <Sparkles className="w-4 h-4" />
             </div>
             <span className="font-bold text-slate-900 tracking-tight">eKazi</span>
           </Link>
-          <Link to="/login" className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-            Employer sign in
-          </Link>
+
+          <nav className="hidden sm:flex items-center gap-1">
+            <NavLink
+              to="/"
+              end
+              className={({ isActive }) =>
+                clsx(
+                  "px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                  isActive
+                    ? "text-brand-600 bg-brand-50"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                )
+              }
+            >
+              Open positions
+            </NavLink>
+            <NavLink
+              to="/about"
+              className={({ isActive }) =>
+                clsx(
+                  "px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                  isActive
+                    ? "text-brand-600 bg-brand-50"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                )
+              }
+            >
+              About
+            </NavLink>
+          </nav>
+
+          <div className="flex items-center gap-2">
+            {user ? (
+              <button
+                onClick={() => navigate("/dashboard")}
+                className="btn btn-primary btn-sm group"
+              >
+                Go to dashboard
+                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+              </button>
+            ) : (
+              <Link to="/login" className="btn btn-secondary btn-sm">
+                Employer sign in
+              </Link>
+            )}
+          </div>
         </div>
       </header>
 
-      <main className="flex-1 px-4 sm:px-6 py-8 sm:py-12">
-        <div className="max-w-3xl mx-auto animate-fade-in">
+      {/* Content — no wrapper on homepage (hero bleeds), wrapped elsewhere */}
+      <main className="flex-1">
+        {isHome ? (
           <Outlet />
-        </div>
+        ) : (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 animate-fade-in">
+            <Outlet />
+          </div>
+        )}
       </main>
 
+      {/* Footer */}
       <footer className="border-t border-slate-200/80 bg-white">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6 text-center text-xs text-slate-400">
-          © {new Date().getFullYear()} eKazi — Recruitment made simple
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-2.5">
+              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-white">
+                <Sparkles className="w-3.5 h-3.5" />
+              </div>
+              <span className="font-semibold text-slate-900 text-sm">eKazi</span>
+            </div>
+
+            <nav className="flex items-center gap-5 text-sm text-slate-500 flex-wrap justify-center">
+              <Link to="/" className="hover:text-slate-900 transition-colors">
+                Open positions
+              </Link>
+              <Link to="/about" className="hover:text-slate-900 transition-colors">
+                About
+              </Link>
+              <Link to="/login" className="hover:text-slate-900 transition-colors">
+                Employer sign in
+              </Link>
+            </nav>
+
+            <p className="text-xs text-slate-400">
+              © {new Date().getFullYear()} eKazi
+            </p>
+          </div>
         </div>
       </footer>
     </div>

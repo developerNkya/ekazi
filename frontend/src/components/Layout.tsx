@@ -5,7 +5,7 @@ import { useAuth } from "../hooks/useAuth";
 import toast from "react-hot-toast";
 
 const NAV = [
-  { to: "/", label: "Dashboard", icon: LayoutDashboard, end: true },
+  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard, end: true },
   { to: "/jobs", label: "Jobs", icon: Briefcase, end: false },
 ];
 

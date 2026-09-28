@@ -35,4 +35,13 @@ export const publicService = {
       },
     });
   },
+
+  async getPublicStats() {
+  const [totalJobs, totalApplications, totalEmployers] = await Promise.all([
+    prisma.job.count({ where: { status: "PUBLISHED" } }),
+    prisma.application.count(),
+    prisma.user.count(),
+  ]);
+  return { totalJobs, totalApplications, totalEmployers };
+},
 };

@@ -10,7 +10,17 @@ const publicApi = axios.create({
   headers: { "Content-Type": "application/json" },
 });
 
+export interface PublicStats {
+  totalJobs: number;
+  totalApplications: number;
+  totalEmployers: number;
+}
+
 export const publicJobsApi = {
+  listJobs: async (): Promise<PublicJob[]> => {
+    const res = await publicApi.get<PublicJob[]>("/public/jobs");
+    return res.data;
+  },
   getJob: async (id: number): Promise<PublicJob> => {
     const res = await publicApi.get<PublicJob>(`/public/jobs/${id}`);
     return res.data;
@@ -19,4 +29,9 @@ export const publicJobsApi = {
     const res = await publicApi.post<SubmittedApplication>(`/public/jobs/${id}/applications`, data);
     return res.data;
   },
+  getStats: async (): Promise<PublicStats> => {
+    const res = await publicApi.get<PublicStats>("/public/stats");
+    return res.data;
+  },
 };
+

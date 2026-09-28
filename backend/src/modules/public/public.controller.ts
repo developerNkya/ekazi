@@ -22,4 +22,9 @@ export const publicController = {
     const application = await publicService.submitApplication(Number(req.params.id), data);
     res.status(201).json(application);
   }),
+
+  stats: asyncHandler(async (_req: Request, res: Response) => {
+  const stats = await publicService.getPublicStats();
+  res.json(stats);
+}),
 };
