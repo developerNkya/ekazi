@@ -4,6 +4,9 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 async function main() {
+  console.log("🌱 Seeding database...");
+
+  // ---------- 1. Demo user (upsert — safe to re-run) ----------
   const password = await bcrypt.hash("password123", 10);
 
   const user = await prisma.user.upsert({
@@ -16,10 +19,19 @@ async function main() {
     },
   });
 
+  // ---------- 2. Wipe existing jobs/applications for this user ----------
+  // (cleaner than upserting because jobs don't have a unique natural key)
+  await prisma.application.deleteMany({
+    where: { job: { userId: user.id } },
+  });
+  await prisma.job.deleteMany({ where: { userId: user.id } });
+
+  // ---------- 3. Create jobs fresh ----------
   const job1 = await prisma.job.create({
     data: {
       title: "Full-Stack Developer",
-      description: "Build and maintain our recruitment platform using React and Node.js.",
+      description:
+        "Build and maintain our recruitment platform using React and Node.js.",
       location: "Dar es Salaam, Tanzania",
       employmentType: EmploymentType.FULL_TIME,
       status: JobStatus.PUBLISHED,
@@ -38,6 +50,7 @@ async function main() {
     },
   });
 
+  // ---------- 4. Create one sample application ----------
   await prisma.application.create({
     data: {
       jobId: job1.id,
@@ -54,5 +67,8 @@ async function main() {
 }
 
 main()
-  .catch((e) => { console.error(e); process.exit(1); })
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
   .finally(() => prisma.$disconnect());

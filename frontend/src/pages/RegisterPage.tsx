@@ -29,9 +29,11 @@ export function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex">
-      {/* ---------- LEFT BRAND PANEL (with faded image) ---------- */}
-      <div className="hidden lg:flex w-1/2 relative overflow-hidden bg-slate-900">
+    <div className="min-h-screen flex flex-col lg:flex-row">
+      {/* ============================================================
+          LEFT / TOP: BRAND PANEL WITH IMAGE
+      ============================================================ */}
+      <div className="relative overflow-hidden bg-slate-900 lg:w-1/2 h-[220px] sm:h-[260px] lg:h-auto lg:min-h-screen">
         {/* Background image */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -41,10 +43,10 @@ export function RegisterPage() {
           }}
         />
 
-        {/* Gradient overlay (teal → brand, semi-transparent) */}
+        {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-emerald-700/90 via-brand-800/85 to-violet-900/90" />
 
-        {/* Extra dark vignette */}
+        {/* Vignette */}
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-slate-950/30" />
 
         {/* Decorative blobs */}
@@ -52,42 +54,42 @@ export function RegisterPage() {
         <div className="absolute -top-20 -left-20 w-80 h-80 rounded-full bg-emerald-400/20 blur-3xl" />
 
         {/* Content */}
-        <div className="relative z-10 flex flex-col justify-between p-12 text-white w-full">
-          <div className="flex items-center gap-2.5">
+        <div className="relative z-10 h-full flex flex-col justify-between p-6 sm:p-10 lg:p-12 text-white">
+          {/* Clickable logo */}
+          <Link
+            to="/"
+            className="flex items-center gap-2.5 hover:opacity-90 transition-opacity w-fit"
+            aria-label="Go to homepage"
+          >
             <div className="w-9 h-9 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center ring-1 ring-white/20">
               <Sparkles className="w-4 h-4" />
             </div>
             <span className="font-bold text-lg tracking-tight">eKazi</span>
-          </div>
+          </Link>
 
           <div>
-            <h2 className="text-4xl font-bold leading-[1.15] tracking-tight mb-5">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-[1.15] tracking-tight mb-3 lg:mb-5">
               Start hiring
               <br />
               in minutes.
             </h2>
-            <p className="text-white/75 text-base max-w-md leading-relaxed">
+            <p className="hidden sm:block text-white/75 text-sm lg:text-base max-w-md leading-relaxed">
               Create an account, post your first job, and watch qualified
               candidates come to you.
             </p>
           </div>
 
-          <div className="text-xs text-white/50">
+          <div className="hidden lg:block text-xs text-white/50">
             © {new Date().getFullYear()} eKazi. All rights reserved.
           </div>
         </div>
       </div>
 
-      {/* ---------- RIGHT FORM PANEL ---------- */}
-      <div className="flex-1 flex items-center justify-center p-6 bg-slate-50">
+      {/* ============================================================
+          RIGHT / BOTTOM: FORM PANEL
+      ============================================================ */}
+      <div className="flex-1 flex items-center justify-center p-6 sm:p-8 bg-slate-50">
         <div className="w-full max-w-[380px] animate-slide-up">
-          <div className="lg:hidden flex items-center gap-2 mb-8">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-white">
-              <Sparkles className="w-4 h-4" />
-            </div>
-            <span className="font-bold text-lg tracking-tight">eKazi</span>
-          </div>
-
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight mb-1.5">
             Create your account
           </h1>
@@ -110,6 +112,7 @@ export function RegisterPage() {
                 />
               </div>
             </div>
+
             <div>
               <label className="label">Email</label>
               <div className="relative">
@@ -124,6 +127,7 @@ export function RegisterPage() {
                 />
               </div>
             </div>
+
             <div>
               <label className="label">Password</label>
               <div className="relative">
@@ -139,6 +143,7 @@ export function RegisterPage() {
                 />
               </div>
             </div>
+
             <button
               type="submit"
               disabled={submitting}
@@ -153,7 +158,10 @@ export function RegisterPage() {
 
           <p className="mt-6 text-center text-sm text-slate-500">
             Already have an account?{" "}
-            <Link to="/login" className="font-medium text-brand-600 hover:text-brand-700">
+            <Link
+              to="/login"
+              className="font-medium text-brand-600 hover:text-brand-700"
+            >
               Sign in
             </Link>
           </p>
